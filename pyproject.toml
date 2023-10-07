@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "hackai-hack-230607"
+version = "0.1.0"
+description = ""
+authors = ["Sourabh-awasthy <sourabhawasthy176022@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11,<3.12"
+uagents = "^0.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
