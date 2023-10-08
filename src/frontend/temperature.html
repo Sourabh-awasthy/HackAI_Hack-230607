@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Preferences</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-image: url('https://wallpaperaccess.com/full/186464.jpg');
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgb(151, 232, 236,0.4);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-weight: bolder;
+            margin-top: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            width:50%;
+            
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Set Your Weather Preferences</h1>
+        <form>
+            <div class="form-group">
+                <label for="location">Country:</label><br/>
+                <input type="text" id="location" name="location" placeholder="Enter your location" required>
+            </div>
+            <div class="form-group">
+                <label for="location">State:</label><br/>
+                <input type="text" id="location" name="location" placeholder="Enter your location" required>
+            </div>
+            <div class="form-group">
+                <label for="location">City:</label><br/>
+                <input type="text" id="location" name="location" placeholder="Enter your location" required>
+            </div>
+            <div class="form-group">
+                <label for="minTemperature">Minimum Temperature(Celsius):</label>
+                <input type="text" id="minTemperature" name="minTemperature" placeholder="Min Temperature" required>
+            </div>
+            <div class="form-group">
+                <label for="maxTemperature">Maximum Temperature(Celsius):</label>
+                <input type="text" id="maxTemperature" name="maxTemperature" placeholder="Max Temperature" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Set Preferences</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
