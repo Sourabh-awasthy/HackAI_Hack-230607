@@ -1,2 +1,4 @@
 .env
 src/private_keys.json
+src/messages/__pycache__/*
+src/agents/__pycache__/*
