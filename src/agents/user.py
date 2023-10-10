@@ -38,7 +38,6 @@ country= input("Enter The Country: ").lower()
 class Location:
     @staticmethod
     def geo_location():
-            
             latitude = None
             longitude = None
             LOCATION_API_KEY= os.getenv("LOCATION_API_KEY")
