@@ -3,22 +3,41 @@ from uagents import Agent, Context
 import requests
 from messages.basic import Message
 from messages.basic import Response
+from flask import Flask, render_template, session
+from utils.app import Weather_data
 
 from dotenv import load_dotenv
 load_dotenv()
 import json
 import os
+# from utils.app import weather_preferences
+
+
+# @app.route('/display_weather_data')
+# def display_weather_data():
+#     # Access the form data from the session
+#     data = session.get('weather_data')
+
+#     if data:
+#         # Use the form data as needed
+#         print(f'Country: {data["country"]}')
+#         print(f'State: {data["state"]}')
+#         print(f'City: {data["city"]}')
+#         print(f'Min Temperature: {data["min_temperature"]}')
+#         print(f'Max Temperature: {data["max_temperature"]}')
+#     else:
+#         print('No form data available.')
 
 server_ADDRESS = "agent1q26us2kxn8jdm9slaql775pcrw9lk7n5ruf49ws0pd7nrdnspm0gvxv5hf0"
-min_temp=float(20.01)  # Set your preferred minimum temperature
-max_temp=float(30.02)  # Set your preferred maximum temperature
+min_temp=float(Weather_data.collect_weather_preferences.min_temperature) 
+max_temp=float(Weather_data.collect_weather_preferences.max_temperature) 
 
-class Temperature:
+class Location:
     @staticmethod
     def geo_location():
-            city = "Jaipur"
-            state= "Rajasthan" 
-            country= "IN"
+            city = Weather_data.collect_weather_preferences.city
+            state= Weather_data.collect_weather_preferences.state 
+            country= Weather_data.collect_weather_preferences.country
             latitude = None
             longitude = None
             LOCATION_API_KEY= os.getenv("LOCATION_API_KEY")
@@ -38,8 +57,6 @@ class Temperature:
                     print("Location not found in the API response.")
             else:
                 print("Unable to get location.")
-    # a = geo_location()
-    # print(a)
 
 user = Agent(
     name="user",
@@ -51,13 +68,10 @@ user = Agent(
 
 fund_agent_if_low(user.wallet.address())
 
-
-# @user.on_interval(period=2.0)
-# async def send_message(ctx: Context):
-#     await ctx.send(server_ADDRESS, Message(latitude=latitude,longitude=longitude))
 @user.on_interval(period=2.0)
 async def send_message(ctx: Context):
-    latitude, longitude = Temperature.geo_location()
+    latitude, longitude = Location.geo_location()
+ 
     if latitude is not None and longitude is not None:
         message = Message(
             latitude=latitude,
@@ -72,7 +86,7 @@ async def send_message(ctx: Context):
 
 @user.on_message(model=Response)
 async def message_handler(ctx: Context, sender: str, msg: Response):
-    ctx.logger.info(f"Received message from server: {msg.Temp}")
+    ctx.logger.info(f"Received message from server: {msg.msg}")
 
 
 
@@ -86,38 +100,5 @@ if __name__ == "__main__":
 
 
 
-#     @staticmethod
-#     def get_weather_data(latitude, longitude):
-#         WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
-#         WEATHER_API_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
-#         weather_data= requests.get(WEATHER_API_URL)
-#         if weather_data.status_code == 200:
-#             data= weather_data.json()
-#             temperature= data['main']['temp'] - 273.15
-#             return temperature
-#         else:
-#             print("Error fetching weather data!")
+   
 
-# def get_temp(): 
-#     latitude, longitude = Temperature.geo_location()
-#     if latitude is not None and longitude is not None:
-#             print(f"Latitude: {latitude:.6f}°, Longitude: {longitude:.6f}°")
-    
-#             # Get weather data based on the user's location
-#             temperature = Temperature.get_weather_data(latitude, longitude)
-#             if temperature is not None:
-#                 print(f"Temperature: {temperature:.2f}°C")
-#                 return temperature
-#     else:
-#         print("Unable to retrieve your location.")
-
-
-# if _name_ == "_main_":
-#     agent = TemperatureAlertAgent(
-#         name="MyTemperatureAgent",
-#         location="YourLocation",
-        
-#     )
-
-#     while True:
-#         agent.check_temperature()

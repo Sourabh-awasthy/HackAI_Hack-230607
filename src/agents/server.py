@@ -1,47 +1,27 @@
 import requests
-# from uagents import Agent
-# import os
-# import json
 from dotenv import load_dotenv
-# from main import Temperature
 load_dotenv()
-
-# class TemperatureAlertAgent(Agent, Temperature ):
-#     def __init__(self, name, location, min_temp, max_temp):
-#         super().__init__(name=name)
-#         self.location = location
-#         self.min_temp = min_temp
-#         self.max_temp = max_temp
-
-#     def check_temperature(self):
-#         try:
-#             temperature= Temperature
-#             if temperature is not None:
-#                 if temperature < self.min_temp:
-#                     self.send_alert(f"Temperature in {self.location} is below {self.min_temp}°C.")
-#                 elif temperature > self.max_temp:
-#                     self.send_alert(f"Temperature in {self.location} is above {self.max_temp}°C.")
-#                 else:
-#                     print(f"Temperature in {self.location} is within the desired range.")
-#             else:
-#                 print("Temperature data not available in the API response.")
-
-#         except Exception as e:
-#             print(f"Error fetching temperature data: {str(e)}")
-
-#     def send_alert(self, message):
-#         # Replace this with your preferred method of sending alerts (e.g., email, SMS)
-#         print(f"ALERT: {message}")
-
-
 from uagents.setup import fund_agent_if_low
 from uagents.resolver import get_agent_address
 from uagents import Agent, Context
-
+import os
 from messages.basic import Message
 from messages.basic import Response
+from plyer import notification
 
-
+    
+class Temperature:
+    @staticmethod
+    def get_weather_data(latitude, longitude):
+        WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+        WEATHER_API_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
+        weather_data = requests.get(WEATHER_API_URL)
+        if weather_data.status_code == 200:
+            data = weather_data.json()
+            temperature = data['main']['temp'] - 273.15
+            return temperature
+        else:
+            print("Error fetching weather data!")
 
 server = Agent(
     name="agent server",
@@ -51,24 +31,43 @@ server = Agent(
 )
 fund_agent_if_low(server.wallet.address())
 
-
-# @server.on_message(model=Message)
-# async def message_handler(ctx: Context, sender: str, msg: Message):
-#     ctx.logger.info(f"Received message from {sender}: {msg.longitude}")
-
-#     # send the response
-#     await ctx.send(sender, Message(msg="Hello there user."))
-
 @server.on_message(model=Message)
 async def message_handler(ctx: Context, sender: str, msg: Message):
-    ctx.logger.info(f"Received message from user: {msg.longitude}")
+    ctx.logger.info(f"Received message from user")
+    
+    latitude = msg.latitude
+    longitude = msg.longitude
+    temperature = Temperature.get_weather_data(latitude, longitude)
+    
+    min_temp = msg.min_temp
+    max_temp = msg.max_temp
+    
+    if temperature < min_temp:
+        alert_msg = f"Alert: Temperature({temperature}°C) is below minimum ({min_temp}°C)"
+        notification.notify(
+            title = 'Alert',
+            message = f"Temperature({temperature}°C) is below minimum ({min_temp}°C)",
+            app_icon = None,
+            timeout = 10,
+        )
+    elif temperature > max_temp:
+        alert_msg = f"Alert: Temperature({temperature}°C) is above maximum ({max_temp}°C)"
+        notification.notify(
+            title = 'Alert',
+            message = f"Temperature({temperature}°C) is below minimum ({max_temp}°C)",
+            app_icon = None,
+            timeout = 10,
+        )
 
-    # Create a response message with the required fields
+
+    else:
+        alert_msg = f"Temperature {temperature}°C is within the acceptable range ({min_temp}-{max_temp}°C)"
+    
     response_msg = Response(
-        Temp=14.6,
-        msg="Hello there user."
+        Temp=temperature,
+        msg=alert_msg
     )
-
+    
     # send the response
     await ctx.send(sender, response_msg)
 
