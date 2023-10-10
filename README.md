@@ -34,17 +34,22 @@ To run the Temperature Alert project, you'll need API keys from two sources:
 1. Visit [API Ninjas](https://api-ninjas.com/api/geocoding) and sign up or log in.
 2. Your API key will be available on the dashboard. Use the "Geocoding API."
    
-#### SERVER ADDRESS
+#### SERVER ADDRESS 
+
+```bash
+    server.address
+```
+
 Visit [Uagents Doc](https://fetch.ai/docs/guides/agents/getting-uagent-address)
 
 Once you have obtained these API keys, create a `.env` file in the `src` directory with the following content:
 
 
-~~~
+```
 export WEATHER_API_KEY="{YOUR OPEN WEATHER API KEY}"
 export LOCATION_API_KEY="{YOUR API NINJAS GEOCODING API KEY}"
 export SERVER_ADDRESS="{YOUR SERVER ADRRESS}"
-~~~
+```
 
 To use the environment variables from .env and install the project:
 ~~~

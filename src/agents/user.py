@@ -21,6 +21,13 @@ country= input("Enter The Country Code(Example for INDIA->IN) :").lower()
 class Location:
     @staticmethod
     def geo_location():
+            """
+            Used to fetch the location of the user input params
+            ---------------------------------------------------
+            Input >>>> city, state, country
+            ---------------------------------------------------
+            Return >>>> latitude, longitude
+            """ 
             latitude = None
             longitude = None
             LOCATION_API_KEY= os.getenv("LOCATION_API_KEY")
@@ -42,6 +49,7 @@ class Location:
             else:
                 print("Unable to get location.")
 
+# Create Agent named 'user'
 user = Agent(
     name="user",
     port=8000,
@@ -54,7 +62,12 @@ fund_agent_if_low(user.wallet.address())
 
 @user.on_interval(period=5.0)
 async def send_message(ctx: Context):
-
+    """ 
+           Used to send the message to the server Agent
+           --------------------------------------------
+           Input >>>> Context
+           --------------------------------------------
+    """  
     latitude, longitude = Location.geo_location()
     if latitude is not None and longitude is not None:
         message = Message(
@@ -70,6 +83,11 @@ async def send_message(ctx: Context):
 
 @user.on_message(model=Response)
 async def message_handler(ctx: Context, sender: str, msg: Response):
+    """
+        -----------------------------------------------
+        Used to handle message response from the Server
+        -----------------------------------------------
+    """
     ctx.logger.info(f"Received message from server: {msg.msg}")
 
 

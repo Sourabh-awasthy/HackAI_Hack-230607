@@ -12,6 +12,15 @@ from plyer import notification
 class Temperature:
     @staticmethod
     def get_weather_data(latitude, longitude):
+
+        """ 
+           Used to fetch the weather of the given Location
+           -----------------------------------------------
+           Input >>>> latitude, longitude
+           -----------------------------------------------
+           Return >>>> temperature
+        """           
+        
         WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
         WEATHER_API_URL = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={WEATHER_API_KEY}"
         weather_data = requests.get(WEATHER_API_URL)
@@ -22,6 +31,7 @@ class Temperature:
         else:
             print("Error fetching weather data!")
 
+# Create Agent named 'server'
 server = Agent(
     name="agent server",
     port=8001,
@@ -32,6 +42,11 @@ fund_agent_if_low(server.wallet.address())
 
 @server.on_message(model=Message)
 async def message_handler(ctx: Context, sender: str, msg: Message):
+    """
+        -------------------------------------------
+        Used to handle the message from user Agent!
+        -------------------------------------------
+    """
     ctx.logger.info(f"Received message from user")
     
     latitude = msg.latitude
@@ -41,6 +56,7 @@ async def message_handler(ctx: Context, sender: str, msg: Message):
     min_temp = msg.min_temp
     max_temp = msg.max_temp
     
+    # Logic to test if the temperature is in the given range.
     if temperature < min_temp:
         alert_msg = f"Alert: Temperature({temperature}°C) is below minimum temperature i.e ({min_temp}°C)"
         notification.notify(
