@@ -3,8 +3,8 @@ from uagents import Agent, Context
 import requests
 from messages.basic import Message
 from messages.basic import Response
-from flask import Flask, render_template, session
-from utils.app import Weather_data
+# from flask import Flask, render_template, session
+# from utils.app import Weather_data
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -29,15 +29,16 @@ import os
 #         print('No form data available.')
 
 server_ADDRESS = "agent1q26us2kxn8jdm9slaql775pcrw9lk7n5ruf49ws0pd7nrdnspm0gvxv5hf0"
-min_temp=float(Weather_data.collect_weather_preferences.min_temperature) 
-max_temp=float(Weather_data.collect_weather_preferences.max_temperature) 
+min_temp=float(input("Enter The Minimum Temperature: ")) 
+max_temp=float(input("Enter The Minimum Temperature: ")) 
+city = input("Enter The City: ").lower()
+state= input("Enter The State: ").lower()
+country= input("Enter The Country: ").lower()
 
 class Location:
     @staticmethod
     def geo_location():
-            city = Weather_data.collect_weather_preferences.city
-            state= Weather_data.collect_weather_preferences.state 
-            country= Weather_data.collect_weather_preferences.country
+            
             latitude = None
             longitude = None
             LOCATION_API_KEY= os.getenv("LOCATION_API_KEY")

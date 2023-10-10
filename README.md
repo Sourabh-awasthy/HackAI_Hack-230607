@@ -17,19 +17,28 @@ Before starting, you'll need the following:
 
 ### Step 2: Set up .env file
 To run the demo, you need API keys from:
-* OpenWeather API
-
+* OpenWeather API (Current data)
+* API Ninjas (Geocoding API)
 
 ##### OpenWeather API
-* Visit OpenWeather.
+* Visit OpenWeather(https://openweathermap.org/api).
 * Sign up or log in.
 * Your API key will be available on the dashboard.
 * Use Current Weather data.
 
+##### API Ninjas
+* Visit API Ninjas(https://api-ninjas.com/api/geocoding).
+* Sign up or log in.
+* Your API key will be available on the dashboard.
+* Use Geocoding Api.
+
+
 
 Once you have the key, create a .env file in the src directory.
 ```bash
-export WEATHER_API_KEY="{GET THE API KEY}"
+export WEATHER_API_KEY="{GET THE OPEN WEATHER API KEY}"
+export LOCATION_API_KEY="{GET THE API NINJAS GEOCODING API KEY}"
+export SERVER
 ```
 To use the environment variables from .env and install the project:
 ```bash
@@ -44,16 +53,11 @@ cd src
 poetry run python main.py
 ```
 
-### Step 4:Run the project's frontend
-To run the project's frontend:
-```bash
-cd utils
-python utils.py
-```
+
 You need to look for the following output in the logs:
 ```
 ALERT: Temperature in YourLocation is {}.
 ```
 
-You will get alert as simple notifications.
-You can set your personalised minimum as well as maximum temperature for alert and also user can use current location
+You will get alert as Push notifications as alerts.
+You can set your personalised minimum as well as maximum temperature for alert
