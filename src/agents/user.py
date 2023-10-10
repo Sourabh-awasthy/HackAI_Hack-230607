@@ -8,12 +8,15 @@ import json
 import os
 load_dotenv()
 
-server_ADDRESS = os.getenv("SERVER_ADDRESS")
+# Get the SERVER_ADDRESS from .env file 
+# To get the server address follow README.md
 
+server_ADDRESS= os.getenv("SERVER_ADDRESS")  
+# Get user details
 min_temp=float(input("Enter The Min_Temperature(Celsius): ")) 
-max_temp=float(input("Enter The Min_Temperature(Celsius): "))
-city = input("Enter The City :").lower()
-state= input("Enter The State :").lower()
+max_temp=float(input("Enter The Max_Temperature(Celsius): "))
+city = input("Enter The City : ").lower()
+state= input("Enter The State : ").lower()
 country= input("Enter The Country Code(Example for INDIA->IN) :").lower()
 class Location:
     @staticmethod
@@ -49,14 +52,10 @@ user = Agent(
 
 fund_agent_if_low(user.wallet.address())
 
-@user.on_interval(period=2.0)
+@user.on_interval(period=5.0)
 async def send_message(ctx: Context):
-    '''<<--------->>---------<<-------->>------<<--------->>
-        
-        
-    '''
+
     latitude, longitude = Location.geo_location()
- 
     if latitude is not None and longitude is not None:
         message = Message(
             latitude=latitude,

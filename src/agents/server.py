@@ -2,7 +2,6 @@ import requests
 from dotenv import load_dotenv
 load_dotenv()
 from uagents.setup import fund_agent_if_low
-from uagents.resolver import get_agent_address
 from uagents import Agent, Context
 import os
 from messages.basic import Message
@@ -58,8 +57,6 @@ async def message_handler(ctx: Context, sender: str, msg: Message):
             app_icon = None,
             timeout = 10,
         )
-
-
     else:
         alert_msg = f"Temperature {temperature}°C is within the acceptable range ({min_temp}-{max_temp}°C)"
     
