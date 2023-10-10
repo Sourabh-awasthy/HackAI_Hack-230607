@@ -43,7 +43,7 @@ async def message_handler(ctx: Context, sender: str, msg: Message):
     max_temp = msg.max_temp
     
     if temperature < min_temp:
-        alert_msg = f"Alert: Temperature({temperature}°C) is below minimum ({min_temp}°C)"
+        alert_msg = f"Alert: Temperature({temperature}°C) is below minimum temperature i.e ({min_temp}°C)"
         notification.notify(
             title = 'Alert',
             message = f"Temperature({temperature}°C) is below minimum ({min_temp}°C)",
@@ -51,10 +51,10 @@ async def message_handler(ctx: Context, sender: str, msg: Message):
             timeout = 10,
         )
     elif temperature > max_temp:
-        alert_msg = f"Alert: Temperature({temperature}°C) is above maximum ({max_temp}°C)"
+        alert_msg = f"Alert: Temperature({temperature}°C) is above maximum temperature i.e ({max_temp}°C)"
         notification.notify(
             title = 'Alert',
-            message = f"Temperature({temperature}°C) is below minimum ({max_temp}°C)",
+            message = f"Temperature({temperature}°C) is above maximum temperature i.e ({max_temp}°C)",
             app_icon = None,
             timeout = 10,
         )
@@ -73,3 +73,4 @@ async def message_handler(ctx: Context, sender: str, msg: Message):
 
 if __name__ == "__main__":
     server.run()
+    

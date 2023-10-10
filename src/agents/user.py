@@ -3,41 +3,21 @@ from uagents import Agent, Context
 import requests
 from messages.basic import Message
 from messages.basic import Response
-from flask import Flask, render_template, session
-from utils.app import Weather_data
-
 from dotenv import load_dotenv
-load_dotenv()
 import json
 import os
-# from utils.app import weather_preferences
+load_dotenv()
 
+server_ADDRESS = os.getenv("SERVER_ADDRESS")
 
-# @app.route('/display_weather_data')
-# def display_weather_data():
-#     # Access the form data from the session
-#     data = session.get('weather_data')
-
-#     if data:
-#         # Use the form data as needed
-#         print(f'Country: {data["country"]}')
-#         print(f'State: {data["state"]}')
-#         print(f'City: {data["city"]}')
-#         print(f'Min Temperature: {data["min_temperature"]}')
-#         print(f'Max Temperature: {data["max_temperature"]}')
-#     else:
-#         print('No form data available.')
-
-server_ADDRESS = "agent1q26us2kxn8jdm9slaql775pcrw9lk7n5ruf49ws0pd7nrdnspm0gvxv5hf0"
-min_temp=float(Weather_data.collect_weather_preferences.min_temperature) 
-max_temp=float(Weather_data.collect_weather_preferences.max_temperature) 
-
+min_temp=float(input("Enter The Min_Temperature(Celsius): ")) 
+max_temp=float(input("Enter The Min_Temperature(Celsius): "))
+city = input("Enter The City :").lower()
+state= input("Enter The State :").lower()
+country= input("Enter The Country Code(Example for INDIA->IN) :").lower()
 class Location:
     @staticmethod
     def geo_location():
-            city = Weather_data.collect_weather_preferences.city
-            state= Weather_data.collect_weather_preferences.state 
-            country= Weather_data.collect_weather_preferences.country
             latitude = None
             longitude = None
             LOCATION_API_KEY= os.getenv("LOCATION_API_KEY")
@@ -46,7 +26,7 @@ class Location:
             if location_data.status_code == requests.codes.ok:
                 api_response = json.loads(location_data.text)
                 for location in api_response:
-                    if (location.get("country") == country and location.get("state") == state and location.get("name").lower() == city.lower()):
+                    if (location.get("country").lower() == country and location.get("state").lower() == state and location.get("name").lower() == city):
                         latitude = location.get("latitude")
                         longitude = location.get("longitude")
                     break
@@ -54,6 +34,7 @@ class Location:
                 if latitude is not None and longitude is not None:
                     return latitude, longitude
                 else:
+                    return None, None
                     print("Location not found in the API response.")
             else:
                 print("Unable to get location.")
@@ -70,6 +51,10 @@ fund_agent_if_low(user.wallet.address())
 
 @user.on_interval(period=2.0)
 async def send_message(ctx: Context):
+    '''<<--------->>---------<<-------->>------<<--------->>
+        
+    
+    '''
     latitude, longitude = Location.geo_location()
  
     if latitude is not None and longitude is not None:
