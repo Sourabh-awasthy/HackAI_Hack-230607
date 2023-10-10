@@ -87,7 +87,7 @@ Here's a flowchart explaining the flow and logic of our project:
 
 You need to look for the following output in the logs:
 
-ALERT: Temperature in YourLocation is {}.
+ALERT: Temperature(21.980000000000018°C) is above maximum temperature i.e (20.0°C)
 
 
 You will get alert as Push notifications as alerts.
