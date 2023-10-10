@@ -1,13 +1,12 @@
 from uagents import Model
 
 class Message(Model):
+  latitude: float 
+  longitude: float 
   min_temp: float 
   max_temp: float 
-  city: str
-  state: str 
-  country: str
+  msg: str
 
 class Response(Model):
   Temp:float
   msg: str
-
