@@ -66,12 +66,6 @@ cd src
 poetry run python main.py
 ~~~
 
-## Flowchart
-
-Here's a flowchart explaining the flow and logic of our project:
-
-![Flowchart](https://imgtr.ee/images/2023/10/10/15b0cc72682f41565c864b0a2dfbf808.png)
-
 
 You need to look for the following output in the logs:
 
