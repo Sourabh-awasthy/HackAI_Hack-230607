@@ -72,18 +72,6 @@ Here's a flowchart explaining the flow and logic of our project:
 
 ![Flowchart](https://imgtr.ee/images/2023/10/10/15b0cc72682f41565c864b0a2dfbf808.png)
 
-## Working Screenshots
-
-### Screenshot 1: Connection established through UAgent, Example of input
-
-![17bc4ca6977e4187e51c21751d89a470.png](https://imgtr.ee/images/2023/10/10/17bc4ca6977e4187e51c21751d89a470.png)
-
-### Screenshot 2: Receving Alerts
-
-![cc92b1bdedbf2dcd074f179fcc41f803.png](https://imgtr.ee/images/2023/10/10/cc92b1bdedbf2dcd074f179fcc41f803.png)
-
-
-
 
 You need to look for the following output in the logs:
 
